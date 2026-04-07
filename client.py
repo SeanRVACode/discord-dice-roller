@@ -59,6 +59,8 @@ def parse_roll(dice_str: str):
 
 bot = RollBot()
 
+"""Roll command for dice roller."""
+
 
 @bot.tree.command(
     name="roll", description="Supply a string with [Num]d[Num] and this will returning the resulting dice roll."
@@ -78,4 +80,5 @@ async def _roll(interaction: discord.Interaction, user_input: str):
         return None
 
 
+# Starts the bot
 bot.run(os.getenv("token"))
