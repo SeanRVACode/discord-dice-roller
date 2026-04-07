@@ -23,6 +23,7 @@ class RollBot(commands.Bot):
     #     print(f"Message from {message.author}:{message.content}")
 
 
+# Todo not sure if these are needed.
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -39,7 +40,6 @@ def roll_results(player_input: str):
     else:
         while count != 0:
             roll_result = r.randint(1, sides)
-            print(roll_result)
             result += roll_result
             indiv_results.append(roll_result)
             count -= 1
@@ -65,12 +65,13 @@ bot = RollBot()
 )
 async def _roll(interaction: discord.Interaction, user_input: str):
     try:
-        print(user_input)
         result, indiv_roll = roll_results(user_input)
         results_dict = {}
         for _ in indiv_roll:
             results_dict[_] = indiv_roll.count(_)
-        await interaction.response.send_message(f"Total: {result}. Rolled: {results_dict}")
+        # Create sorted dict for user readability
+        sorted_dict = dict(sorted(results_dict.items()))
+        await interaction.response.send_message(f"Total: {result}. Rolled: {sorted_dict}")
 
     except Exception as e:
         print(e)
