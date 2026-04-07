@@ -1,5 +1,6 @@
 import discord
-from discord.ext import commands
+from discord.app_commands import commands
+
 from dotenv import load_dotenv
 import os
 from typing import Optional, Union
@@ -10,26 +11,9 @@ load_dotenv()
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="/", intents=intents)
+client = discord.Client(intents=intents)
 
-# client = discord.Client(intents=intents)
-
-
-# @client.event
-# async def on_ready():
-#     print(f"We have logged in as {client.user}")
-
-
-# @client.event
-# async def on_message(message):
-#     if message.author == client.user:
-#         return
-
-#     if message.content.startswith("$hello"):
-#         await message.channel.send("Hello!")
-#     if message.content.startswith("/roll"):
-#         result, indiv_rolls = roll()
-#         await message.channel.send()
+# bot = commands.Bot(command_prefix="/", intents=intents)
 
 
 def roll_results(player_input: str):
@@ -62,7 +46,7 @@ def parse_roll(dice_str: str):
         return None, None
 
 
-@bot.command()
+@commands.context_menu()
 async def roll(ctx, player_input: str):
     try:
         result, indiv_roll = roll_results(player_input)
@@ -76,5 +60,5 @@ async def roll(ctx, player_input: str):
 
 
 # Runs the bot using its token.
-# client.run(os.getenv("token"))
-bot.run(os.getenv("token"))
+client.run(os.getenv("token"))
+# bot.run(os.getenv("token"))
