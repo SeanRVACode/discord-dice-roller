@@ -16,6 +16,7 @@ class RollBot(commands.Bot):
         print(f"Logged on as {self.user}")
 
     async def setup_hook(self) -> None:
+        # Should really only need to supply the ID for development purposes.
         self.tree.copy_global_to(guild=discord.Object(id=os.getenv("id")))
         await self.tree.sync()
 
@@ -23,17 +24,12 @@ class RollBot(commands.Bot):
     #     print(f"Message from {message.author}:{message.content}")
 
 
-# Todo not sure if these are needed.
-intents = discord.Intents.default()
-intents.message_content = True
-
-
 def roll_results(player_input: str):
     result = 0
     indiv_results = []
-
+    # Parse the roll
     count, sides = parse_roll(player_input)
-    print(sides)
+    # Needed if someone inputs something that doesn't fit the criteria of the roll
     if count is None or sides is None:
         return None, None
 
@@ -62,6 +58,7 @@ bot = RollBot()
 """Roll command for dice roller."""
 
 
+# Todo would it be better to ask for how many dice and the number of rolls rather than assuming the user knows what to do?
 @bot.tree.command(
     name="roll", description="Supply a string with [Num]d[Num] and this will returning the resulting dice roll."
 )
