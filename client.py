@@ -83,12 +83,12 @@ async def _roll(interaction: discord.Interaction, roll_amount: str, lowest_neede
                     hits += results_dict[key]
                 else:
                     continue
-            # Todo maybe remove sorted dict as it makes the message long on large rolls.
+            # Todo maybe remove sorted dict as it makes the message long on large rolls. Or make it something the player can request?
             await interaction.response.send_message(f"Hits/Wounds: {hits} with the following rolls: {sorted_dict}")
 
     except Exception as e:
         print(e)
-        return None
+        await interaction.response.send_message("Error occured. Please check your input.")
 
 
 # Starts the bot
